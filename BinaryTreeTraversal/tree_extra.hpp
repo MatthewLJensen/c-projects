@@ -8,9 +8,6 @@
 // points.
 template <typename T>
 static void draw(TreeNode<T> *t, char link, int depth) {
-    //pass in forward slash for right subtree
-    //pass in backslash for left subtree
-
     if (t == nullptr)
         return;
 
@@ -53,7 +50,82 @@ static TreeNode<T> *build_tree(typename std::vector<T>::const_iterator pre_begin
                                typename std::vector<T>::const_iterator pre_end,
                                typename std::vector<T>::const_iterator in_begin, 
                                typename std::vector<T>::const_iterator in_end) {
-    //TreeNode *root = TreeNode(pre_begin)
-    return nullptr;
+
+
+
+
+    int index = find(in_begin, in_end, *pre_begin) - in_begin;
+    typename std::vector<T>::const_iterator pre_index_iter = pre_begin + index;
+    typename std::vector<T>::const_iterator in_index_iter = find(in_begin, in_end, *pre_begin);
+
+
+
+    std::vector<T> left_pre(next(pre_begin), next(pre_index_iter));
+    std::vector<T> left_in(in_begin, in_index_iter);
+    std::vector<T> right_pre(next(pre_index_iter), pre_end);
+    std::vector<T> right_in(next(in_index_iter), in_end);
+
+    // for (auto elem : left_pre) {
+    //     std::cout << elem << ' ';
+    // }
+
+    // for (auto elem : left_in) {
+    //     std::cout << elem << ' ';
+    // }
+
+    // for (auto elem : right_pre) {
+    //     std::cout << elem << ' ';
+    // }
+
+    // for (auto elem : right_in) {
+    //     std::cout << elem << ' ';
+    // }
+
+    TreeNode<T> *root = new TreeNode(*pre_begin, 
+        ( begin(left_pre) == end(left_pre) )   ? nullptr : (build_tree<T>(begin(left_pre), end(left_pre), begin(left_in), end(left_in))),
+        ( begin(right_pre) == end(right_pre) ) ? nullptr : (build_tree<T>(begin(right_pre), end(right_pre), begin(right_in), end(right_in)))
+        );
+
+        
+    return root;
+
+
+    //build_tree<T>(std::vector<T>(next(pre_begin), next(pre_index_iter)), std::vector<T>(in_begin, in_index_iter));
+    //build_tree<T>(std::vector<T>(next(pre_index_iter), pre_end), std::vector<T>(next(in_index_iter), in_end)));
+    
+    
+    //std::cout << "pre_index_iter: " << *pre_index_iter << "\nin_index_iter: " << *in_index_iter; //couts the values at the computed splitting iterators
+
+    // while (*pre_begin != *in_begin){
+    //     in_begin++;
+    //     index++;
+    // }
+
+    // while (*pre_begin != *in_begin){
+    //     left_in.push_back(*(in_begin++));
+    // }
+
+
+
+    //testing array creations
+    // for (auto i : std::vector<T>(next(pre_begin), next(pre_index_iter))) //left_pre
+    //     std::cout << i << " ";
+
+    // std::cout << "\n";
+
+    // for (auto i : std::vector<T>(in_begin, in_index_iter)) //left_in
+    //     std::cout << i << " ";
+
+    // std::cout << "\n";
+
+    // for (auto i : std::vector<T>(next(pre_index_iter), pre_end)) //right_pre
+    //     std::cout << i << " ";
+
+    // std::cout << "\n";
+
+    // for (auto i : std::vector<T>(next(in_index_iter), in_end)) //right_in
+    //     std::cout << i << " ";
+    
+
 }
 
