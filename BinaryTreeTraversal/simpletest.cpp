@@ -16,6 +16,20 @@ int main() {
 
     std::cout << "====================\n";
 
+    std::vector<int> pres{1,2,4,5,3},  // preorder
+                     ins{4,2,5,1,3};   // inorder
+
+    TreeNode<int> *int_trees = build_tree<int>(pres, ins); 
+
+    draw(int_trees);
+
+    dispose(int_trees);
+
+    draw(int_trees);
+
+    std::cout << "====================\n";
+
+
     std::vector<std::string> ps{"Xena", "Albert", "Quin", "Pat", "Henry", "Kit"},
                              is{"Quin", "Albert", "Pat", "Xena", "Kit", "Henry"};
 
