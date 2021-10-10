@@ -29,8 +29,9 @@ static void draw(TreeNode<T> *t, char link, int depth) {
 // rooted at t.
 template <typename T>
 void dispose(TreeNode<T> *t) {
-    if (t == nullptr)
+    if (t == nullptr){
         return;
+    }
 
     //delete right subtree
     dispose(t->right);
