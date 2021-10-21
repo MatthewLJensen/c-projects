@@ -1,8 +1,9 @@
 #include "DisjointSet.h"
 
 // Construct size sets, each in its own equivalent class
-DisjointSet::DisjointSet(int size)  {
-	// Add your code (and add a constructor initializer list as // needed
+DisjointSet::DisjointSet(int size) : number_of_sets(1), set(size) {
+    for( int i = 0; i <= size; i++ )
+    set.push_back(i);
 }
 
 // Find the equivalence class of n.
@@ -10,26 +11,28 @@ DisjointSet::DisjointSet(int size)  {
 // of all the elements on the path from n to its
 // representative element.
 int DisjointSet::Find(int i) {
-    // Replace with your code
-    return -1;
+    if (set[i] != i){
+        set[i] = Find(set[i]);
+    }
+    return set[i];
 }
 
 // Merge the two equivalence classes s1 and s2.
 // No optimization performed during the union.
 int DisjointSet::Union(int s1, int s2) {
-    // Replace with your code
-    return -1;
+    int p1 = Find(s1),
+        p2 = Find(s2);
+        set[p1] = p2;
 }
 
 // Number of equivalence classes (sets)
 int DisjointSet::Cardinality() const {
-    // Replace with your code
-    return 0;
+    return number_of_sets;
 }
 
 // Makes a set in its own equivalence class
 void DisjointSet::Make_Set(int i) {
-    // Add your code
+    set[i] = i;
 }
 
 // Unmerge all elements into separate sets.
