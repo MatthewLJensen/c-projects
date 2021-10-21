@@ -1,4 +1,9 @@
-//  tree_extra.hpp
+//  Name: Matthew Jensen
+//  Assignment number: 4
+//  Assignment: Binary Tree Traversals
+//  File name: tree_extra.hpp
+//  Date last modified: October 19, 2021
+//  Honor statement: I have neither given nor received any unauthorized help on this assignment. 
 
 // Draws the binary tree rooted at t.  
 // Parameter link is a symbol to print in front of the node to

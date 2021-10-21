@@ -36,17 +36,6 @@ int main() {
     TreeNode<std::string> *str_tree = build_tree<std::string>(ps, is);
     draw(str_tree);
  
-  std::cout << "====================\n";
 
-
-    TreeNode<int> *sample_tree = new TreeNode<int>(14, 
-                                       new TreeNode<int>(11,
-                                            new TreeNode<int>(12, nullptr, nullptr),
-                                            new TreeNode<int>(5, nullptr, nullptr)),
-                                       new TreeNode<int>(6, 
-                                            nullptr, 
-                                            new TreeNode<int>(5, nullptr, nullptr)));
-
-    draw(sample_tree);
 
 }
