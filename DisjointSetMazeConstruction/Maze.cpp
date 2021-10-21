@@ -6,7 +6,7 @@
 // This is a minimal functional constructor; you will need to 
 // augment the constructor initalizer list and add code to the
 // body.
-Maze::Maze(int rows, int columns) : rows(rows), columns(columns),
+Maze::Maze(int rows, int columns) : rows(rows), columns(columns), rooms(new std::vector<std::vector<int>>),
 	                                set(rows*columns) {
     // Add your code (and add to constructor initalizer list as
     // needed.
