@@ -57,5 +57,5 @@ class MazeWindow : public sgl::Window {
 
 // Create and run the maze program
 int main() {
-    sgl::run<MazeWindow>(30, 50);
+    sgl::run<MazeWindow>(25, 30);
 }

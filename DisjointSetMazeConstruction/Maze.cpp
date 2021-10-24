@@ -21,10 +21,20 @@ int Maze::operator()(int row, int column) const {
 
 // Randomly generates a maze
 void Maze::build_maze() {
+    std::cout << "building maze";
+
+    // reset
+    set.Split();
+    for(int i = 0; i < rows; i++){
+        for (int j = 0; j < columns; j++){
+            rooms[i][j] = ALL_WALLS;
+        }
+    }
+
     // remove entrance wall
     rooms[0][0] = ~LEFT_WALL;
     // remove exit wall
-    rooms[rows][columns] = ~RIGHT_WALL;
+    rooms[rows-1][columns-1] = ~RIGHT_WALL;
 
     while(set.Cardinality() > 1){
         int room_col = rand()%columns;
@@ -38,38 +48,38 @@ void Maze::build_maze() {
         if (rand()%2){
             if (rand()%2 && (adj_row != rows - 1)){
                 adj_row++; // should remove 
-                room_remove = RIGHT_WALL;
-                adj_remove =  LEFT_WALL;
+                room_remove = TOP_WALL;
+                adj_remove  = BOTTOM_WALL;
             }else if (adj_row != 0){
                 adj_row--;
-                room_remove = LEFT_WALL;
-                adj_remove =  RIGHT_WALL;
+                room_remove = BOTTOM_WALL;
+                adj_remove  = TOP_WALL;
             }else{
                 adj_row++; // should remove 
-                room_remove = RIGHT_WALL;
-                adj_remove =  LEFT_WALL;
+                room_remove = TOP_WALL;
+                adj_remove  = BOTTOM_WALL;
             }
         }else{
             if (rand()%2 && (adj_col != columns - 1)){
                 adj_col++;
-                room_remove = TOP_WALL;
-                adj_remove =  BOTTOM_WALL;
+                room_remove = RIGHT_WALL;
+                adj_remove  = LEFT_WALL;
             }else if (adj_col != 0){
                 adj_col--;
-                room_remove = BOTTOM_WALL;
-                adj_remove =  TOP_WALL;
+                room_remove = LEFT_WALL;
+                adj_remove  = RIGHT_WALL;
             }else{
                 adj_col++;
-                room_remove = TOP_WALL;
-                adj_remove =  BOTTOM_WALL;
+                room_remove = RIGHT_WALL;
+                adj_remove =  LEFT_WALL;
             }
         }
         //int adjacent = rooms[adj_row][adj_col];
 
         if(set.Find(room_row*columns + room_col) != set.Find(adj_row*columns + adj_col)){
             set.Union((room_row*columns + room_col), (adj_row*columns + adj_col));
-            rooms[room_row][room_col] &= room_remove;
-            rooms[adj_row][adj_col] &= adj_remove;            
+            rooms[room_row][room_col] &= ~room_remove;
+            rooms[adj_row][adj_col] &= ~adj_remove;            
         }
 
     }

@@ -1,9 +1,10 @@
 #include "DisjointSet.h"
 
 // Construct size sets, each in its own equivalent class
-DisjointSet::DisjointSet(int size) : number_of_sets(1), set(size) {
-    for( int i = 0; i <= size; i++ )
-    set.push_back(i);
+DisjointSet::DisjointSet(int size) : number_of_sets(size), set(size) {
+    for( int i = 0; i <= size; i++ ){
+        set[i] = i;
+    }
 }
 
 // Find the equivalence class of n.
