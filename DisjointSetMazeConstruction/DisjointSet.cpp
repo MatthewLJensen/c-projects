@@ -23,6 +23,8 @@ int DisjointSet::Union(int s1, int s2) {
     int p1 = Find(s1),
         p2 = Find(s2);
         set[p1] = p2;
+        number_of_sets--;
+        return 1;
 }
 
 // Number of equivalence classes (sets)
@@ -39,5 +41,8 @@ void DisjointSet::Make_Set(int i) {
 // Each element will be a singleton in its 
 // own equivalence class.
 void DisjointSet::Split() {
-    // Add your code
+    for(int i = 0; i <= set.size(); i++){
+        Make_Set(i);
+    }
+    number_of_sets = set.size();
 }
