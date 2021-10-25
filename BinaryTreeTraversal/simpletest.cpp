@@ -33,7 +33,10 @@ int main() {
     std::vector<std::string> ps{"Xena", "Albert", "Quin", "Pat", "Henry", "Kit"},
                              is{"Quin", "Albert", "Pat", "Xena", "Kit", "Henry"};
 
-    TreeNode<std::string> *str_tree = build_tree<std::string>(ps, is);
+     std::vector<std::string> pss{"A", "B", "D", "C", "E","G", "F", "H", "I"},
+                             iss{"B", "D", "A", "G", "E", "C", "H", "F", "I"};
+
+    TreeNode<std::string> *str_tree = build_tree<std::string>(pss, iss);
     draw(str_tree);
  
   std::cout << "====================\n";
