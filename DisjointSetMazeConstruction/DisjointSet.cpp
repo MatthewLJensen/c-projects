@@ -1,3 +1,10 @@
+//  Name: Matthew Jensen
+//  Assignment number: 5
+//  Assignment: Disjoint Set Maze Construction
+//  File name: DisjointSet.cpp
+//  Date last modified: November 3, 2021
+//  Honor statement: I have neither given nor received any unauthorized help on this assignment. 
+
 #include "DisjointSet.h"
 
 // Construct size sets, each in its own equivalent class
