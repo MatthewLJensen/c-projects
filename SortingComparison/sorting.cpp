@@ -1,3 +1,10 @@
+//  Name: Matthew Jensen
+//  Assignment number: 6
+//  Assignment: Sorting Comparison
+//  File name: sorting.cpp
+//  Date last modified: November 14, 2021
+//  Honor statement: I have neither given nor received any unauthorized help on this assignment. 
+
 #include <iostream>
 #include <algorithm> // std::sort
 #include <vector>    // std::vector
