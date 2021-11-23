@@ -3,60 +3,29 @@
 //  Assignment: Edit Distance Dynamic Programming
 //  File name: EditDistance.cpp
 //  Date last modified: November 21, 2021
-//  Honor statement: I have neither given nor received any unauthorized help on this assignment. 
+//  Honor statement: I have neither given nor received any unauthorized help on this assignment.
 
 #include <iostream>
-#include <vector>    // std::vector
+#include <vector>  // std::vector
+#include <iomanip> // std::setw
 
-// Function: editDistance
-// Description: Calculates the edit distance between two strings, using dynamic programming. A character can be removed, inserted, or replaced.
-// Parameters:
-//      string s1: The first string
-//      string s2: The second string
-// Return: The edit distance between the two strings
-int editDistance(std::string s1, std::string s2)
+// prings a formatted table of edit distances
+void print(std::vector<std::vector<int>> &matrix)
 {
-    // Create a vector of vectors of ints to store the edit distance between the two strings
-    std::vector<std::vector<int>> editDistanceMatrix(s1.length() + 1, std::vector<int>(s2.length() + 1));
-
-    // Initialize the first row and column of the matrix to 0
-    for (int i = 0; i <= s1.length(); i++)
+    // iterate through the matrix and print each row
+    for (int i = 0; i < matrix.size(); i++)
     {
-        editDistanceMatrix[i][0] = i;
-    }
-    for (int j = 0; j <= s2.length(); j++)
-    {
-        editDistanceMatrix[0][j] = j;
-    }
-
-    // Calculate the edit distance between the two strings
-    for (int i = 1; i <= s1.length(); i++)
-    {
-        for (int j = 1; j <= s2.length(); j++)
+        // iterate through the row and print each element
+        for (int j = 0; j < matrix[i].size(); j++)
         {
-            // If the characters are the same, the edit distance is the edit distance of the previous row and column
-            if (s1[i - 1] == s2[j - 1])
-            {
-                editDistanceMatrix[i][j] = editDistanceMatrix[i - 1][j - 1];
-            }
-            // If the characters are different, the edit distance is the minimum of the edit distance of the previous row and column, plus 1
-            else
-            {
-                editDistanceMatrix[i][j] = 1 + std::min(editDistanceMatrix[i - 1][j], std::min(editDistanceMatrix[i][j - 1], editDistanceMatrix[i - 1][j - 1]));
-            }
+            // print the number with proper alignment
+            std::cout << std::setw(3) << matrix[i][j];
         }
+        std::cout << std::endl;
     }
-
-    // Return the edit distance between the two strings
-    return editDistanceMatrix[s1.length()][s2.length()];
 }
 
-// Function: edit instructions
-// Description: interprets the edit distance between two strings and prints out the instructions to get from one string to the other
-// Parameters:
-//      string s1: The first string
-//      string s2: The second string
-// Return: void
+// calculates the edit distance between two strings as well as their edit operations
 void editInstructions(std::string s1, std::string s2)
 {
     // Create a vector of vectors of ints to store the edit distance between the two strings
@@ -90,66 +59,57 @@ void editInstructions(std::string s1, std::string s2)
         }
     }
 
-    // Print out the instructions to get from one string to the other
-    std::cout << "The edit distance between " << s1 << " and " << s2 << " is " << editDistanceMatrix[s1.length()][s2.length()] << ".\n";
-    std::cout << "The instructions to get from " << s1 << " to " << s2 << " are: ";
+    std::cout << editDistanceMatrix[s1.length()][s2.length()] << ":   ";
+
+    // get the edit instructions
     int i = s1.length();
     int j = s2.length();
+
+    std::string backwardsInstructions = "";
+
     while (i > 0 || j > 0)
     {
-        // If the characters are the same, the edit distance is the edit distance of the previous row and column
-        if (s1[i - 1] == s2[j - 1])
+
+        // find the minimum of the three edit distances
+        int min = std::min(editDistanceMatrix[i][j - 1], std::min(editDistanceMatrix[i - 1][j], editDistanceMatrix[i - 1][j - 1]));
+        if (min == editDistanceMatrix[i - 1][j - 1])
         {
-            i--;
-            j--;
-        }
-        // If the characters are different, the edit distance is the minimum of the edit distance of the previous row and column, plus 1
-        else
-        {
-            // If the edit distance of the previous row and column is the same as the edit distance of the previous row and the previous column, the character was inserted
-            if (editDistanceMatrix[i - 1][j] == editDistanceMatrix[i][j - 1])
+            if (s1[i - 1] == s2[j - 1])
             {
-                std::cout << "insert ";
+                backwardsInstructions.append("^"); // keep the character the same
+                i--;
                 j--;
             }
-            // If the edit distance of the previous row and column is the same as the edit distance of the previous row and the previous column, the character was removed
-            else if (editDistanceMatrix[i - 1][j] == editDistanceMatrix[i - 1][j - 1])
-            {
-                std::cout << "remove ";
-                i--;
-            }
-            // If the edit distance of the previous row and column is the same as the edit distance of the previous row and the previous column, the character was replaced
             else
             {
-                std::cout << "replace ";
+                backwardsInstructions.append(s2, j - 1, 1);
+                backwardsInstructions.append("/"); //replace with
                 i--;
                 j--;
             }
         }
+        else if (min == editDistanceMatrix[i][j - 1])
+        {
+            backwardsInstructions.append(s2, j - 1, 1);
+            backwardsInstructions.append("+");
+            j--;
+        }
+        else// (min == editDistanceMatrix[i - 1][j])
+        {
+            backwardsInstructions.append("-"); // detlete
+            i--;
+        }
     }
-    std::cout << "with " << s2 << ".\n";
+
+    // print the edit instructions
+    reverse(backwardsInstructions.begin(), backwardsInstructions.end());
+    std::cout << backwardsInstructions << "\n";
+    //print(editDistanceMatrix);
 }
 
-void test_edit_distance(){
-    // Test the edit distance function
-    std::cout << "Edit distance between \"Hello\" and \"Hello\" is: " << editDistance("Hello", "Hello") << std::endl;
-    std::cout << "Edit distance between \"Hello\" and \"Helli\" is: " << editDistance("Hello", "Helli") << std::endl;
-    std::cout << "Edit distance between \"Hello\" and \"\" is: " << editDistance("Hello", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"Hello\" is: " << editDistance("", "Hello") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-    std::cout << "Edit distance between \"\" and \"\" is: " << editDistance("", "") << std::endl;
-}
-
-void input_loop(){
+// loops for user input
+void input_loop()
+{
     // Loop to allow the user to input strings
     while (true)
     {
@@ -167,9 +127,6 @@ void input_loop(){
 
         // Calculate the edit distance between the two strings
         editInstructions(s1, s2);
-
-        // Print the edit distance between the two strings
-        //std::cout << "Edit distance between \"" << s1 << "\" and \"" << s2 << "\" is: " << editDistanceLength << std::endl;
     }
 }
 
@@ -177,6 +134,4 @@ int main()
 {
     input_loop();
     return 0;
-
 }
-
