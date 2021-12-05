@@ -2,7 +2,7 @@
 //  Assignment Number: 7
 //  Assignment: Edit Distance Dynamic Programming
 //  File name: EditDistance.cpp
-//  Date last modified: November 21, 2021
+//  Date last modified: December 5, 2021
 //  Honor statement: I have neither given nor received any unauthorized help on this assignment.
 
 #include <iostream>
@@ -62,9 +62,9 @@ void editInstructions(std::string s1, std::string s2)
     std::cout << editDistanceMatrix[s1.length()][s2.length()] << ":   ";
 
     // get the edit instructions
+
     int i = s1.length();
     int j = s2.length();
-
     std::string backwardsInstructions = "";
 
     while (i > 0 || j > 0)
@@ -91,12 +91,12 @@ void editInstructions(std::string s1, std::string s2)
         else if (min == editDistanceMatrix[i][j - 1])
         {
             backwardsInstructions.append(s2, j - 1, 1);
-            backwardsInstructions.append("+");
+            backwardsInstructions.append("+"); // insert
             j--;
         }
-        else// (min == editDistanceMatrix[i - 1][j])
+        else
         {
-            backwardsInstructions.append("-"); // detlete
+            backwardsInstructions.append("-"); // delete
             i--;
         }
     }
